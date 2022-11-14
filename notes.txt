@@ -28,3 +28,11 @@ STEP 3 : CALL METHODS WHICH IS REQ .
 -> store.getState() => To get current state
 -> store.subscribe(() => { event listener}) => To attach an event listener 
 return a function to unsubscribe to that listener
+
+const combineReducer = redux.combineReducers => used to combine multiple reducers, so as to a single reducer to create store method
+cons root =  combineReducer({object of key value})
+
+Middleware => way to add additional functionality to redux
+1) import and create the middleware we want
+2) import applymiddleware function from redux
+3) const store = createStore(root, applyMiddleware(logger));

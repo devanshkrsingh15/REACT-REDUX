@@ -1,6 +1,13 @@
 const redux = require("redux");
+const reduxLogger = require("redux-logger");
+
 const createStore = redux.createStore;
+const combineReducer = redux.combineReducers;
+const logger = reduxLogger.createLogger();
+const applyMiddleware = redux.applyMiddleware;
+
 const BUY_CAKE = "BUY_CAKE";
+const BUY_ICECREAM = "BUY_ICECREAM";
 
 //actions creator
 function buyCake() {
@@ -10,8 +17,19 @@ function buyCake() {
   };
 }
 
+function buyIceCream() {
+  return {
+    type: BUY_ICECREAM,
+    info: "buying ice-cream",
+  };
+}
+
 const initialState = {
   numOfCakes: 10,
+};
+
+const initialIceCreamState = {
+  numOfIceCream: 10,
 };
 
 //(prevState,action) = newState
@@ -25,15 +43,34 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-const store = createStore(reducer);
+const IceCreamreducer = (state = initialIceCreamState, action) => {
+  switch (action.type) {
+    case BUY_ICECREAM:
+      return { ...state, numOfIceCream: state.numOfIceCream - 1 };
+
+    default:
+      return state;
+  }
+};
+
+const root = combineReducer({
+  cake: reducer,
+  iceCream: IceCreamreducer,
+});
+const store = createStore(root, applyMiddleware(logger));
 
 console.log("Initial Store", store.getState());
-const unsubscribe =  store.subscribe(() => {
-  console.log("Updated Store", store.getState());
-});
+
+// const unsubscribe = c // not required => if logger middleware used
+
 store.dispatch(buyCake());
 store.dispatch(buyCake());
 store.dispatch(buyCake());
-unsubscribe();
 store.dispatch(buyCake());
+
+store.dispatch(buyIceCream());
+store.dispatch(buyIceCream());
+store.dispatch(buyIceCream());
+store.dispatch(buyIceCream());
+
 console.log("Final Store", store.getState());
