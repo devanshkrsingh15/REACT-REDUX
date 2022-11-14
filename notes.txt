@@ -1,0 +1,30 @@
+Three concepts : 
+1) A store that holds the state of our application
+2) An action that describe the changes in the state of the application
+3) An reducer which actually carries out the state transition depending on the action
+
+Three Principles : 
+1) The state of our whole app is stored in an object tree within a single store
+Maintain our application in a single object which would be managed by Redux store
+
+2)The only way to change the state is to emit an action,an object describing what happened.
+To update the state of our app, we need to let Redux know about that with an action , Not allowed to directly update the state object.
+
+3)To specify how the state tree is transformed by actions, we write pure reducers,
+Reducer - (previousState,action) => newState
+
+*Always make action string variable, to prevent spelling mistakes
+
+Steps to create react store =>
+STEP 1 : IMPORT REDUX 
+const redux = require("redux");
+const createStore = redux.createStore;
+
+STEP 2 : PASS THE REDUCER TO createStore()
+const store = createStore(reducer);
+
+STEP 3 : CALL METHODS WHICH IS REQ .
+-> store.dispatch(action) => To emit a action
+-> store.getState() => To get current state
+-> store.subscribe(() => { event listener}) => To attach an event listener 
+return a function to unsubscribe to that listener
